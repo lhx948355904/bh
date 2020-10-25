@@ -45,9 +45,9 @@
 
     <div class="chart">
       <p>设备维修知识图谱</p>
-      <div id="chart1">
-        <img src="@/assets/img/eg.png" alt="" />
-      </div>
+      <div id="viz" class="network" style="height: 300px"></div>
+      <!-- <div id="chart1">
+      </div> -->
     </div>
 
     <div class="chart">
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+// import NeoVis from "neovis.js";
 export default {
   name: "Home",
 
@@ -91,6 +92,43 @@ export default {
   },
   mounted() {
     this.drawLine();
+    var viz;
+    function draw() {
+      var config = {
+        container_id: "viz",
+        server_url: "bolt://39.105.232.15:7687",
+        server_user: "neo4j",
+        server_password: "123456",
+        labels: {
+          Description: "name",
+          Device: "name",
+          Reason: "name",
+          Solution: "name",
+        },
+        relationships: {
+          ReasonOf: {
+            caption: false,
+          },
+          SolutionOf: {
+            caption: false,
+          },
+          malfunctionof: {
+            caption: false,
+          },
+          methodsof: {
+            caption: false,
+          },
+        },
+        // initial_cypher: "MATCH p=()-->() RETURN p LIMIT 25"
+        initial_cypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN *"
+      };
+
+      viz = new NeoVis.default(config);
+      viz.render();
+      console.log(viz);
+    }
+    console.log(NeoVis);
+    draw();
   },
 };
 </script>
