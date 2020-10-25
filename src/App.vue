@@ -2,34 +2,34 @@
   <div id="app">
     <router-view />
     <mt-tabbar v-model="selected" :fixed="true">
-      <mt-tab-item id="console" href="/console">
+      <mt-tab-item id="console">
         <img
           slot="icon"
           v-if="this.selected == 'console'"
           src="@/assets/img/console-active.png"
         />
         <img slot="icon" v-else src="@/assets/img/console.png" />
-        控制台
+        <router-link to="/console"> 控制台 </router-link>
       </mt-tab-item>
 
-      <mt-tab-item id="index" href="/">
+      <mt-tab-item id="index">
         <img
           slot="icon"
           v-if="this.selected == 'index'"
           src="@/assets/img/index-active.png"
         />
         <img slot="icon" v-else src="@/assets/img/index.png" />
-        首页
+        <router-link to="/"> 首页 </router-link>
       </mt-tab-item>
 
-      <mt-tab-item id="my" href="/my">
+      <mt-tab-item id="my">
         <img
           slot="icon"
           v-if="this.selected == 'my'"
           src="@/assets/img/my-active.png"
         />
         <img slot="icon" v-else src="@/assets/img/my.png" />
-        我的
+        <router-link to="/my"> 我的 </router-link>
       </mt-tab-item>
     </mt-tabbar>
   </div>
@@ -42,11 +42,26 @@ export default {
       selected: "",
     };
   },
-  created() {
+  created() {},
+  methods: {
+    goindex(){
+      this.$router.push({
+        path:'/'
+      })
+    },
+    goconsole(){
+      this.$router.push({
+        path:'/console'
+      })
+    },
+    gomy(){
+      this.$router.push({
+        path:'/my'
+      })
+    }
   },
-  methods: {},
   mounted() {
-    console.log(this.selected);
+    // console.log(this.selected);
   },
 };
 </script>
