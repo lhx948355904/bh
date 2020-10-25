@@ -7,13 +7,10 @@ import 'mint-ui/lib/style.css'
 import "lib-flexible/flexible"
 import "@/assets/reset.css"
 import echarts from "echarts"
-// import Vis from 'vis'
-// import NeoVis from 'neovis.js';
-// import "@/assets/vis-network.min.css"
-// import "vis-network/dist/dist/vis-network.min.css"
+import axios from 'axios';
 
 Vue.prototype.$echarts = echarts;
-// Vue.prototype.$NeoVis = NeoVis;
+Vue.prototype.$axios = axios;
 
 Vue.use(Mint)
 

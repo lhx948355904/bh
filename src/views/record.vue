@@ -7,21 +7,21 @@
     </mt-header>
 
     <div class="title">
-      刀库门气缸脱落！
+      {{data.fault_description}}
       <img src="@/assets/img/logo.png" alt="" />
     </div>
 
     <div>
-      <mt-cell title="设备号" value="279"></mt-cell>
-      <mt-cell title="设备名称" value="小巨人加工中心"></mt-cell>
-      <mt-cell class="bottom" title="型号" value="VTC-160A-2PC"></mt-cell>
+      <mt-cell title="设备号" :value="data.device_id"></mt-cell>
+      <mt-cell title="设备名称" :value="data.device_name"></mt-cell>
+      <mt-cell class="bottom" title="型号" :value="data.model_no"></mt-cell>
 
-      <mt-cell title="故障征兆" value="小巨人加工中心刀库气缸脱落！"></mt-cell>
-      <mt-cell title="故障原因" value="小巨人加工中心紧固螺钉脱落"></mt-cell>
+      <mt-cell title="故障征兆" :value="data.fault_description"></mt-cell>
+      <mt-cell title="故障原因" :value="data.fault_reason"></mt-cell>
       <mt-cell
         class="bottom"
         title="解决方案"
-        value="小巨人加工中心重新装螺钉固定"
+        :value="data.solution"
       ></mt-cell>
 
       <mt-cell title="方案提供人" value="汪啸天"></mt-cell>
@@ -40,7 +40,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return {
+      data: this.$route.params || "",
+    }
+  },
+  mounted(){
+    console.log(this.data);
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -57,6 +66,10 @@ export default {};
 .mint-cell {
   text-decoration: none;
   border-bottom: 1px solid #eeeeee;
+
+  /deep/ .mint-cell-value{
+    max-width: 70%;
+  }
 }
 
 .mint-header {

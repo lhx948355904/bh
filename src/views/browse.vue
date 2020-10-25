@@ -30,12 +30,12 @@
     <div>
       <p class="title">按型号检索</p>
       <div class="content">
-        <mt-button :plain="true" type="default" size="small">VT-200C</mt-button>
-        <mt-button :plain="true" type="default" size="small">VT-200C</mt-button>
-        <mt-button :plain="true" type="default" size="small">VT-200C</mt-button>
-        <mt-button :plain="true" type="default" size="small">VT-200C</mt-button>
-        <mt-button :plain="true" type="default" size="small">VT-200C</mt-button>
-        <mt-button :plain="true" type="default" size="small">VT-200C</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
       </div>
     </div>
 
@@ -54,6 +54,20 @@
 <script>
 export default {
   methods: {
+    search(val){
+      this.$axios
+        .post("http://39.105.232.15:3150/category", {
+          model_no: `${val.target.innerText}`,
+        })
+        .then((resp) => {
+          if (resp.data.data.length > 0) {
+            this.$router.push({
+              name: "searchResult",
+              params: resp.data.data,
+            });
+          }
+        });
+    },
     drawLine() {
       let myChart = this.$echarts.init(document.getElementById("chart1"));
       myChart.setOption({

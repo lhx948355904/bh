@@ -15,7 +15,11 @@
     </mt-header>
 
     <div class="search">
-      <mt-search cancel-text="取消" placeholder="搜索"></mt-search>
+      <mt-search
+        @keyup.enter.native="search"
+        cancel-text="取消"
+        placeholder="搜索"
+      ></mt-search>
     </div>
 
     <div class="sort">
@@ -24,58 +28,52 @@
     </div>
 
     <div class="searchList">
-      <div>
-        <router-link to="/record">
+      <div v-for="item in data" :key="item.record_id" @click="gorecord(item)">
           <p class="title">
-            维修记录——01
+            {{ item.fault_description }}
             <img src="@/assets/img/back.png" alt="" />
           </p>
           <p>
-            <span>设备号：279</span>
-            <span>设备名称：加工中掉刀</span>
+            <span>设备号：{{ item.device_id }}</span>
+            <span>设备名称：{{ item.device_name }}</span>
           </p>
           <p>
-            <span>型号：VTC-160A</span>
-            <span>故障描述：加工中掉刀</span>
+            <span>型号：{{ item.model_no }}</span>
+            <span>故障描述：{{ item.fault_reason }}</span>
           </p>
-        </router-link>
-      </div>
-
-      <div>
-        <p class="title">
-          维修记录——02
-          <img src="@/assets/img/back.png" alt="" />
-        </p>
-        <p>
-          <span>设备号：279</span>
-          <span>设备名称：小巨人加工中心</span>
-        </p>
-        <p>
-          <span>型号：VTC-160A</span>
-          <span>故障描述：加工中掉刀</span>
-        </p>
-      </div>
-
-      <div>
-        <p class="title">
-          维修记录——03
-          <img src="@/assets/img/back.png" alt="" />
-        </p>
-        <p>
-          <span>设备号：279</span>
-          <span>设备名称：加工中掉刀</span>
-        </p>
-        <p>
-          <span>型号：VTC-160A</span>
-          <span>故障描述：加工中掉刀</span>
-        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      data: this.$route.params || "",
+    };
+  },
+  methods: {
+    search(val) {
+      this.$axios
+        .post("http://39.105.232.15:3150/query", {
+          text: `${val.target.value}`,
+        })
+        .then((resp) => {
+          if (resp.data.length > 0) {
+            this.data = resp.data;
+          }
+        });
+    },
+    gorecord(item){
+      this.$router.push({
+        name: "record",
+        params: item,
+      });
+    }
+  },
+  mounted() {},
+};
 </script>
 
 <style lang="less" scoped>

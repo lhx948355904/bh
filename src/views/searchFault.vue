@@ -15,7 +15,12 @@
     </mt-header>
 
     <div class="search">
-      <mt-search cancel-text="取消" placeholder="搜索"></mt-search>
+      <mt-search
+        @keyup.enter.native="search"
+        cancel-text="取消"
+        placeholder="搜索"
+      >
+      </mt-search>
     </div>
 
     <div class="searchList">
@@ -23,7 +28,7 @@
       <router-link to="/searchResult">
         <mt-cell title="小巨人加工中心掉刀..."></mt-cell>
       </router-link>
-      
+
       <mt-cell title="刀库门气缸脱落..."></mt-cell>
       <mt-cell title="机械手驱动故障..."></mt-cell>
     </div>
@@ -31,7 +36,28 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    search(val) {
+      this.$axios
+        .post("http://39.105.232.15:3150/query", {
+          text: `${val.target.value}`,
+        })
+        .then((resp) => {
+          if (resp.data.length > 0) {
+            this.$router.push({
+              name: "searchResult",
+              params: resp.data,
+            });
+          }
+        });
+    },
+  },
+  mounted() {},
+};
 </script>
 
 <style lang="less" scoped>
@@ -61,6 +87,12 @@ export default {};
 
   .mint-search {
     height: initial;
+
+    /deep/ .mint-search-list {
+      z-index: 999;
+      top: 112px;
+      padding-top: 0;
+    }
   }
 
   /deep/ .mint-searchbar {
