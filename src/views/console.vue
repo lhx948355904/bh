@@ -83,6 +83,7 @@ export default {
 <style lang="less" scoped>
 .console {
   padding: 0 10px;
+  min-height: ~"calc(100vh - 120px)";
 }
 .mint-header {
   background: white;
@@ -114,7 +115,6 @@ export default {
 }
 
 .page {
-  margin: 60px 0 20px;
 }
 
 .content {

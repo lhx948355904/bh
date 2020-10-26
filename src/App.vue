@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <keep-alive include="searchResult">
+      <router-view />
+    </keep-alive>
     <mt-tabbar v-model="selected" :fixed="true">
       <mt-tab-item id="console">
         <img
@@ -67,6 +69,10 @@ export default {
 </script>
 
 <style lang="less">
+#app{
+  padding:60px 0;
+  box-sizing: border-box;
+}
 .active {
   color: red;
 }

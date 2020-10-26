@@ -63,7 +63,7 @@ export default {
           if (resp.data.data.length > 0) {
             this.$router.push({
               name: "searchResult",
-              params: resp.data.data,
+              params: {data:resp.data.data},
             });
           }
         });
@@ -117,10 +117,11 @@ export default {
 
 .browse {
   padding: 0 10px;
+    min-height: ~"calc(100vh - 120px)";
+
 }
 
 .page {
-  margin: 60px 0 20px;
 }
 
 .content {

@@ -66,10 +66,11 @@ export default {};
 
 .knowledgeList {
   padding: 0 10px;
+  min-height: ~"calc(100vh - 120px)";
+
 }
 
 .chooseModel {
-  margin: 60px 0 20px;
 }
 
 .title {

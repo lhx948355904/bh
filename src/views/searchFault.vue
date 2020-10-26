@@ -63,6 +63,8 @@ export default {
 <style lang="less" scoped>
 .searchFault {
   background: #fafafa;
+    min-height: ~"calc(100vh - 120px)";
+
 }
 
 .mint-header {
@@ -83,7 +85,6 @@ export default {
 }
 
 .search {
-  margin: 60px 0 20px;
 
   .mint-search {
     height: initial;
@@ -112,6 +113,7 @@ export default {
 
 .searchList {
   padding: 0 10px;
+  margin-top:10px;
 
   p {
     font-weight: bold;

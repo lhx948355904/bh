@@ -41,6 +41,8 @@ export default {};
 <style lang="less" scoped>
 .reportRepair {
   padding: 0 10px;
+  min-height: ~"calc(100vh - 120px)";
+
 }
 
 .mint-header {
@@ -71,7 +73,6 @@ export default {};
 }
 
 .form {
-  margin: 60px 0 20px;
 
   .mint-cell {
     border-bottom: 1px solid #eeeeee;

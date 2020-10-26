@@ -38,6 +38,8 @@ export default {};
 <style lang="less" scoped>
 .my {
   background: #FAFAFA;
+  min-height: ~"calc(100vh - 120px)";
+
 }
 
 .mint-header {
@@ -58,7 +60,6 @@ export default {};
     
     .name{
         background: white;
-        margin: 60px 0 10px;
         padding: 0 10px;
         font-size: 16px;
 

@@ -56,7 +56,8 @@ export default {
 .record {
   padding: 0 10px;
   background: #fafafa;
-  height: 100vh;
+    min-height: ~"calc(100vh - 120px)";
+
 }
 
 .bottom {
@@ -83,7 +84,6 @@ export default {
 }
 
 .title {
-  margin: 60px 0 20px;
   font-weight: bold;
   font-size: 16px;
   background: white;

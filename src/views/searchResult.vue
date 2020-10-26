@@ -23,12 +23,17 @@
     </div>
 
     <div class="sort">
-      <span> 排序 <img src="@/assets/img/dropdown.png" /> </span>
-      <span> 共36条 </span>
+      <span @click="sort"> 排序 
+        <img v-show="sortBool" src="@/assets/img/dropdown.png" />
+        <img v-show="!sortBool" src="@/assets/img/dropup.png" />
+
+         </span>
+      <span> 共{{data.length}}条 </span>
     </div>
 
     <div class="searchList">
-      <div v-for="item in data" :key="item.record_id" @click="gorecord(item)">
+      <div class="nodata" v-if="data.length == 0">抱歉，暂无相关结果</div>
+      <div v-else v-for="item in data" :key="item.record_id" @click="gorecord(item)">
           <p class="title">
             {{ item.fault_description }}
             <img src="@/assets/img/back.png" alt="" />
@@ -48,9 +53,11 @@
 
 <script>
 export default {
+  name:"searchResult",
   data() {
     return {
-      data: this.$route.params || "",
+      data: this.$route.params.data || [],
+      sortBool:true
     };
   },
   methods: {
@@ -60,8 +67,11 @@ export default {
           text: `${val.target.value}`,
         })
         .then((resp) => {
+          console.log(resp)
           if (resp.data.length > 0) {
             this.data = resp.data;
+          }else{
+            this.data = []
           }
         });
     },
@@ -70,16 +80,32 @@ export default {
         name: "record",
         params: item,
       });
+    },
+    sort(){
+      console.log(this.data); //sy-log
+      this.sortBool ? this.data.sort((a,b)=>a.device_id - b.device_id) : this.data.sort((a,b)=>b.device_id - a.device_id)
+      this.sortBool = !this.sortBool
+      
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$route); //sy-log
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .searchFault {
   background: #fafafa;
-  height: 100vh;
+  box-sizing: border-box;
+  min-height: ~"calc(100vh - 120px)";
+
+}
+
+.nodata{
+  text-align: center;
+    height: 100px;
+    line-height: 100px;
 }
 
 .mint-header {
@@ -100,10 +126,13 @@ export default {
 }
 
 .search {
-  margin: 60px 0 0;
 
   .mint-search {
     height: initial;
+  }
+
+  /deep/ .mint-search-list{
+    display: none;
   }
 
   /deep/ .mint-searchbar {
@@ -136,6 +165,18 @@ export default {
       color: #666666;
       height: 30px;
       line-height: 30px;
+
+      span:first-child{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      span:last-child{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     .title {

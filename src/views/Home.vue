@@ -128,9 +128,7 @@ export default {
 
       viz = new NeoVis.default(config);
       viz.render();
-      console.log(viz);
     }
-    console.log(NeoVis);
     draw();
   },
 };
@@ -139,6 +137,7 @@ export default {
 <style lang="less" scoped>
 .home {
   padding: 0 10px;
+  min-height: ~"calc(100vh - 120px)";
 }
 
 .mint-header {
@@ -156,7 +155,7 @@ export default {
   color: #333333;
   font-size: 16px;
   text-align: left;
-  margin: 60px 0 20px;
+  margin-bottom: 20px;
 
   img {
     width: 30px;
