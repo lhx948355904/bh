@@ -7,7 +7,7 @@
     </mt-header>
 
     <div class="title">
-      {{data.fault_description}}
+      {{ data.fault_description }}
       <img src="@/assets/img/logo.png" alt="" />
     </div>
 
@@ -18,37 +18,52 @@
 
       <mt-cell title="故障征兆" :value="data.fault_description"></mt-cell>
       <mt-cell title="故障原因" :value="data.fault_reason"></mt-cell>
-      <mt-cell
-        class="bottom"
-        title="解决方案"
-        :value="data.solution"
-      ></mt-cell>
+      <mt-cell class="bottom" title="解决方案" :value="data.solution"></mt-cell>
 
       <mt-cell title="方案提供人" value="汪啸天"></mt-cell>
       <mt-cell title="联系方式" value="18888888888"></mt-cell>
     </div>
 
     <div class="btns">
-      <mt-button type="primary" size="small"
+      <mt-button type="primary" size="small" @click.native="prev"
         ><img src="@/assets/img/last.png" />上一个</mt-button
       >
-      <mt-button type="primary" size="small"
-        >下一个<img src="@/assets/img/next.png" /></mt-button
-      >
+      <mt-button type="primary" size="small" @click.native="next"
+        >下一个<img src="@/assets/img/next.png"
+      /></mt-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data(){
+  data() {
     return {
-      data: this.$route.params || "",
-    }
+      data: "",
+      index: "",
+      datas: "",
+    };
   },
-  mounted(){
-    console.log(this.data);
-  }
+  methods: {
+    prev() {
+      if (this.index > 0) {
+        this.index--;
+        this.data = this.datas[this.index];
+      }
+    },
+    next() {
+      if (this.index < this.datas.length) {
+        this.index++;
+        this.data = this.datas[this.index];
+
+      }
+    },
+  },
+  mounted() {
+    this.index = this.$route.params.index;
+    this.datas = this.$route.params.data;
+    this.data = this.datas[this.index];
+  },
 };
 </script>
 
@@ -56,8 +71,7 @@ export default {
 .record {
   padding: 0 10px;
   background: #fafafa;
-    min-height: ~"calc(100vh - 120px)";
-
+  min-height: ~"calc(100vh - 120px)";
 }
 
 .bottom {
@@ -68,7 +82,7 @@ export default {
   text-decoration: none;
   border-bottom: 1px solid #eeeeee;
 
-  /deep/ .mint-cell-value{
+  /deep/ .mint-cell-value {
     max-width: 70%;
   }
 }
@@ -98,9 +112,13 @@ export default {
   }
 }
 
-.btns{
-    margin: 10px 0;
-    display: flex;
-    justify-content: space-between;
+.btns {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+
+  .mint-button{
+    background:#4969ff;
+  }
 }
 </style>

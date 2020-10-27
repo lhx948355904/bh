@@ -2,7 +2,7 @@
   <div class="searchFault">
     <mt-header fixed title="故障搜索">
       <div slot="left">
-        <mt-button @click="$router.back(-1)" icon="back"></mt-button>
+        <mt-button @click="back" icon="back"></mt-button>
       </div>
       <div slot="right">
         <span>
@@ -23,70 +23,102 @@
     </div>
 
     <div class="sort">
-      <span @click="sort"> 排序 
+      <span @click="sort">
+        排序
         <img v-show="sortBool" src="@/assets/img/dropdown.png" />
         <img v-show="!sortBool" src="@/assets/img/dropup.png" />
 
-         </span>
-      <span> 共{{data.length}}条 </span>
+        <span @click="choosesortid"> 排序字段：{{ sortid }} </span>
+      </span>
+
+      <span> 共{{ data.length }}条 </span>
     </div>
 
     <div class="searchList">
       <div class="nodata" v-if="data.length == 0">抱歉，暂无相关结果</div>
-      <div v-else v-for="item in data" :key="item.record_id" @click="gorecord(item)">
-          <p class="title">
-            {{ item.fault_description }}
-            <img src="@/assets/img/back.png" alt="" />
-          </p>
-          <p>
-            <span>设备号：{{ item.device_id }}</span>
-            <span>设备名称：{{ item.device_name }}</span>
-          </p>
-          <p>
-            <span>型号：{{ item.model_no }}</span>
-            <span>故障描述：{{ item.fault_reason }}</span>
-          </p>
+      <div
+        v-else
+        v-for="(item, index) in data"
+        :key="item.record_id"
+        @click="gorecord(data, index)"
+      >
+        <p class="title">
+          {{ item.fault_description }}
+          <img src="@/assets/img/back.png" alt="" />
+        </p>
+        <p>
+          <span>设备号：{{ item.device_id }}</span>
+          <span>设备名称：{{ item.device_name }}</span>
+        </p>
+        <p>
+          <span>型号：{{ item.model_no }}</span>
+          <span>故障描述：{{ item.fault_reason }}</span>
+        </p>
       </div>
     </div>
+
+    <mt-popup v-model="popupVisible">
+      <mt-radio
+        title="单选框列表"
+        v-model="sortid"
+        :options="['序号', '设备号', '相关度']"
+      >
+      </mt-radio>
+    </mt-popup>
   </div>
 </template>
 
 <script>
 export default {
-  name:"searchResult",
+  name: "searchResult",
   data() {
     return {
       data: this.$route.params.data || [],
-      sortBool:true
+      history: this.$route.params.history || [],
+      sortBool: true,
+      sortid: "序号",
+      popupVisible: false,
+      sortval:{"序号":"record_id","设备号":"device_id","相关度":"score"}
     };
   },
   methods: {
+    choosesortid() {
+      this.popupVisible = true;
+    },
+    back() {
+      this.$router.back(-1);
+    },
     search(val) {
       this.$axios
         .post("http://39.105.232.15:3150/query", {
           text: `${val.target.value}`,
         })
         .then((resp) => {
-          console.log(resp)
+          console.log(resp);
           if (resp.data.length > 0) {
             this.data = resp.data;
-          }else{
-            this.data = []
+          } else {
+            this.data = [];
           }
         });
     },
-    gorecord(item){
+    gorecord(data, index) {
       this.$router.push({
         name: "record",
-        params: item,
+        params: {
+          data: data,
+          index: index,
+        },
       });
     },
-    sort(){
+    sort() {
+      var sortOfId = this.sortval[this.sortid];
+      this.sortBool
+        ? this.data.sort((a, b) => a[sortOfId] - b[sortOfId])
+        : this.data.sort((a, b) => b[sortOfId] - a[sortOfId]);
+      this.sortBool = !this.sortBool;
       console.log(this.data); //sy-log
-      this.sortBool ? this.data.sort((a,b)=>a.device_id - b.device_id) : this.data.sort((a,b)=>b.device_id - a.device_id)
-      this.sortBool = !this.sortBool
-      
-    }
+    },
   },
   mounted() {
     console.log(this.$route); //sy-log
@@ -99,13 +131,12 @@ export default {
   background: #fafafa;
   box-sizing: border-box;
   min-height: ~"calc(100vh - 120px)";
-
 }
 
-.nodata{
+.nodata {
   text-align: center;
-    height: 100px;
-    line-height: 100px;
+  height: 100px;
+  line-height: 100px;
 }
 
 .mint-header {
@@ -126,12 +157,11 @@ export default {
 }
 
 .search {
-
   .mint-search {
     height: initial;
   }
 
-  /deep/ .mint-search-list{
+  /deep/ .mint-search-list {
     display: none;
   }
 
@@ -166,13 +196,17 @@ export default {
       height: 30px;
       line-height: 30px;
 
-      span:first-child{
+      span:first-child {
+        display: inline-block;
+        width: 40%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      span:last-child{
+      span:last-child {
+        display: inline-block;
+        width: 60%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

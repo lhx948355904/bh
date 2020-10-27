@@ -11,6 +11,8 @@ import axios from 'axios';
 
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$axios = axios;
+Vue.prototype.$bus = new Vue();
+
 
 Vue.use(Mint)
 

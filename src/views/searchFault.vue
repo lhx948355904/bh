@@ -16,7 +16,7 @@
 
     <div class="search">
       <mt-search
-        @keyup.enter.native="search"
+        @keyup.enter.native="search($event.target.value)"
         cancel-text="取消"
         placeholder="搜索"
       >
@@ -25,46 +25,86 @@
 
     <div class="searchList">
       <p>搜索记录</p>
-      <router-link to="/searchResult">
-        <mt-cell title="小巨人加工中心掉刀..."></mt-cell>
-      </router-link>
-
-      <mt-cell title="刀库门气缸脱落..."></mt-cell>
-      <mt-cell title="机械手驱动故障..."></mt-cell>
+      <mt-cell
+        v-for="item in searchHistory"
+        :key="item.id"
+        :title="item.val"
+        @click.native="search($event.target.innerText)"
+      ></mt-cell>
     </div>
   </div>
 </template>
 
 <script>
+import { Toast } from "mint-ui";
 export default {
+  name: "searchFault",
   data() {
-    return {};
+    return {
+      searchHistory: [],
+      i: 0,
+    };
   },
   methods: {
+   
     search(val) {
+      console.log(val); //sy-log
+      var bool = true;
+      if (this.searchHistory.length == 0) {
+        this.searchHistory.unshift({
+          val: val,
+          id: this.i++,
+        });
+      } else {
+        for (let i in this.searchHistory) {
+          var vals = this.searchHistory[i];
+          if (vals.val == val) {
+            this.searchHistory.splice(i, 1);
+            this.searchHistory.unshift(vals);
+            bool = false;
+          }
+        }
+        if (bool) {
+          this.searchHistory.unshift({
+            val:val,
+            id: this.i++,
+          });
+        }
+      }
+
       this.$axios
         .post("http://39.105.232.15:3150/query", {
-          text: `${val.target.value}`,
+          text: `${val}`,
         })
         .then((resp) => {
+          console.log(resp); //sy-log
           if (resp.data.length > 0) {
             this.$router.push({
               name: "searchResult",
-              params: resp.data,
+              params: {
+                data: resp.data,
+                history: this.searchHistory,
+              },
+            });
+          } else {
+            Toast({
+              message: "暂无数据",
+              duration: 3000,
             });
           }
         });
     },
   },
-  mounted() {},
+  mounted() {
+    
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .searchFault {
   background: #fafafa;
-    min-height: ~"calc(100vh - 120px)";
-
+  min-height: ~"calc(100vh - 120px)";
 }
 
 .mint-header {
@@ -85,15 +125,8 @@ export default {
 }
 
 .search {
-
   .mint-search {
     height: initial;
-
-    /deep/ .mint-search-list {
-      z-index: 999;
-      top: 112px;
-      padding-top: 0;
-    }
   }
 
   /deep/ .mint-searchbar {
@@ -113,7 +146,7 @@ export default {
 
 .searchList {
   padding: 0 10px;
-  margin-top:10px;
+  margin-top: 10px;
 
   p {
     font-weight: bold;

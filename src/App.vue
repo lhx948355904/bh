@@ -1,11 +1,10 @@
 <template>
   <div id="app">
-    <keep-alive include="searchResult">
+    <keep-alive include="searchResult,searchFault">
       <router-view />
     </keep-alive>
     <mt-tabbar v-model="selected" :fixed="true">
-      <router-link to="/console">
-        <mt-tab-item id="console">
+        <mt-tab-item id="console" @click.native="goconsole">
           <img
             slot="icon"
             v-if="this.selected == 'console'"
@@ -13,11 +12,9 @@
           />
           <img slot="icon" v-else src="@/assets/img/console.png" />
           控制台
-        </mt-tab-item></router-link
-      >
+        </mt-tab-item>
 
-      <router-link to="/">
-        <mt-tab-item id="index">
+        <mt-tab-item id="index" @click.native="goindex">
           <img
             slot="icon"
             v-if="this.selected == 'index'"
@@ -25,10 +22,8 @@
           />
           <img slot="icon" v-else src="@/assets/img/index.png" />
           首页 
-        </mt-tab-item></router-link
-      >
-      <router-link to="/my">
-        <mt-tab-item id="my">
+        </mt-tab-item>
+        <mt-tab-item id="my" @click.native="gomy">
           <img
             slot="icon"
             v-if="this.selected == 'my'"
@@ -36,8 +31,7 @@
           />
           <img slot="icon" v-else src="@/assets/img/my.png" />
           我的
-        </mt-tab-item></router-link
-      >
+        </mt-tab-item>
     </mt-tabbar>
   </div>
 </template>
@@ -46,22 +40,25 @@
 export default {
   data() {
     return {
-      selected: "",
+      selected: "index",
     };
   },
   created() {},
   methods: {
     goindex() {
+      this.selected = "index"
       this.$router.push({
         path: "/",
       });
     },
     goconsole() {
+      this.selected = "console"
       this.$router.push({
         path: "/console",
       });
     },
     gomy() {
+      this.selected = "my"
       this.$router.push({
         path: "/my",
       });
