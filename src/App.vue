@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <keep-alive include="searchResult,searchFault">
+    <keep-alive :include="keepAlive">
       <router-view />
     </keep-alive>
+
     <mt-tabbar v-model="selected" :fixed="true">
         <mt-tab-item id="console" @click.native="goconsole">
           <img
@@ -41,8 +42,10 @@ export default {
   data() {
     return {
       selected: "index",
+      keepAlive:"searchResult,searchFault",
     };
   },
+  
   created() {},
   methods: {
     goindex() {
@@ -64,6 +67,16 @@ export default {
       });
     },
   },
+  watch: {
+     $route(to, from) {
+     // 如果是从b到a页面，则不缓存b
+       if(from.name === 'browse' && to.name === 'searchResult') {
+         this.keepAlive = "searchFault"
+       } else {
+         this.keepAlive = "searchResult,searchFault"
+       }
+     }
+   },
   mounted() {
     // console.log(this.selected);
   },

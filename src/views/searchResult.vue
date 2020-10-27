@@ -78,9 +78,10 @@ export default {
       sortBool: true,
       sortid: "序号",
       popupVisible: false,
-      sortval:{"序号":"record_id","设备号":"device_id","相关度":"score"}
+      sortval: { 序号: "record_id", 设备号: "device_id", 相关度: "score" },
     };
   },
+  watch: {},
   methods: {
     choosesortid() {
       this.popupVisible = true;
@@ -121,7 +122,14 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route); //sy-log
+    if (this.$route.params.data) {
+      this.data = this.$route.params.data;
+      this.history = this.$route.params.history;
+    } else {
+      if (sessionStorage.getItem("datas")) {
+        this.data = JSON.parse(sessionStorage.getItem("datas"));
+      }
+    }
   },
 };
 </script>
@@ -217,6 +225,9 @@ export default {
       font-weight: bold;
       font-size: 16px;
       color: black;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       img {
         width: 16px;

@@ -31,11 +31,11 @@
       <p class="title">按型号检索</p>
       <div class="content">
         <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
-        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
-        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
-        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
-        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
-        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200C</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-160A-2PC</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-200BN</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-410</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-16A</mt-button>
+        <mt-button :plain="true" @click.native="search" type="default" size="small">VTC-20B</mt-button>
       </div>
     </div>
 
@@ -53,6 +53,7 @@
 
 <script>
 export default {
+  name:"browse",
   methods: {
     search(val){
       this.$axios

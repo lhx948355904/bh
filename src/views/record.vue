@@ -2,7 +2,7 @@
   <div class="record">
     <mt-header fixed title="记录详情">
       <div slot="left">
-        <mt-button @click="$router.back(-1)" icon="back"></mt-button>
+        <mt-button @click="back" icon="back"></mt-button>
       </div>
     </mt-header>
 
@@ -45,6 +45,11 @@ export default {
     };
   },
   methods: {
+    back(){
+      this.$router.back(-1);
+      sessionStorage.setItem("datas",JSON.stringify(this.datas))
+      console.log(JSON.parse(sessionStorage.getItem("datas"))); //sy-log
+    },
     prev() {
       if (this.index > 0) {
         this.index--;
