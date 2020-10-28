@@ -16,10 +16,12 @@
 
     <div class="search">
       <mt-search
-        @keyup.enter.native="search"
+        @keyup.enter.native="search($event.target.innerText)"
         cancel-text="取消"
         placeholder="搜索"
+        v-model="searchVal"
       ></mt-search>
+      <span class="searchBtn" @click="searchOfClick">搜索</span>
     </div>
 
     <div class="sort">
@@ -79,10 +81,14 @@ export default {
       sortid: "序号",
       popupVisible: false,
       sortval: { 序号: "record_id", 设备号: "device_id", 相关度: "score" },
+      searchVal: "",
     };
   },
-  watch: {},
   methods: {
+    searchOfClick() {
+      console.log(this.searchVal); //sy-log
+      this.search(this.searchVal);
+    },
     choosesortid() {
       this.popupVisible = true;
     },
@@ -92,7 +98,7 @@ export default {
     search(val) {
       this.$axios
         .post("http://39.105.232.15:3150/query", {
-          text: `${val.target.value}`,
+          text: `${this.searchVal}`,
         })
         .then((resp) => {
           console.log(resp);
@@ -167,6 +173,18 @@ export default {
 .search {
   .mint-search {
     height: initial;
+    width: ~"calc(100% - 50px)";
+    display: inline-block;
+  }
+
+  .searchBtn {
+    width: 50px;
+    height: 52px;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 52px;
+    text-align: center;
+    background: white;
   }
 
   /deep/ .mint-search-list {

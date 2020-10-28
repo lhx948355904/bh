@@ -19,8 +19,10 @@
         @keyup.enter.native="search($event.target.value)"
         cancel-text="取消"
         placeholder="搜索"
+        v-model="searchVal"
       >
       </mt-search>
+      <span class="searchBtn" @click="searchOfClick">搜索</span>
     </div>
 
     <div class="searchList">
@@ -43,10 +45,13 @@ export default {
     return {
       searchHistory: [],
       i: 0,
+      searchVal:""
     };
   },
   methods: {
-   
+    searchOfClick(){
+      this.search(this.searchVal)
+    },
     search(val) {
       console.log(val); //sy-log
       var bool = true;
@@ -127,6 +132,22 @@ export default {
 .search {
   .mint-search {
     height: initial;
+    width: ~"calc(100% - 50px)";
+    display: inline-block;
+  }
+
+  /deep/ .mint-search-list{
+    display: none;
+  }
+
+  .searchBtn{
+    width: 50px;
+    height: 52px;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 52px;
+    text-align: center;
+    background: white;
   }
 
   /deep/ .mint-searchbar {
