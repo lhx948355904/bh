@@ -70,9 +70,6 @@ export default {};
 
 }
 
-.chooseModel {
-}
-
 .title {
   font-weight: bold;
   font-size: 16px;

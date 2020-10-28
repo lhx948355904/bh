@@ -99,4 +99,8 @@ export default {
     width: 33%;
   }
 }
+
+.mint-cell:hover,a:hover{
+  text-decoration: none !important;
+}
 </style>

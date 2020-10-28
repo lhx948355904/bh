@@ -7,21 +7,21 @@
         李建国
       </p>
 
-      <mt-cell title="单位" is-link href="//github.com">
+      <mt-cell title="单位" is-link href="">
         <span>
             ICM第十车间
         </span>
         <img slot="icon" src="@/assets/img/company.png" width="24" height="24" />
       </mt-cell>
 
-      <mt-cell title="职务" is-link href="//github.com">
+      <mt-cell title="职务" is-link href="">
         <span>
             工程师
         </span>
         <img slot="icon" src="@/assets/img/post.png" width="24" height="24" />
       </mt-cell>
 
-      <mt-cell title="联系方式" is-link href="//github.com">
+      <mt-cell title="联系方式" is-link href="">
         <span>
             18888888888
         </span>
@@ -71,4 +71,5 @@ export default {};
         }
     }
 }
+
 </style>
